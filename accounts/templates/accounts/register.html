@@ -3,5 +3,10 @@
 {% block title %} Register {% endblock %}
 
 {% block content %}
-    Register
+    <h3>Register</h3>
+    <form action='' method='post'>
+        {% csrf_token %}
+        {{user_form.as_p}}
+    <input type='submit'  value='Register'>
+    </form>
 {% endblock %}
