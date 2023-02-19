@@ -3,7 +3,7 @@ from django.views import View
 from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.models import User 
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 class UserRegisterView(View):
@@ -56,3 +56,11 @@ class UserLoginView(View):
         return render(request, self.template_class, {'user_form':user_form})
     
     
+class UserLogoutView(View):
+    """CBV for Loging out user""" 
+        
+    def get(self, request):
+        logout(request)
+        messages.success(request, f"You have logged out successfuly!ByeBye!",'success')
+        return redirect('home:home')
+                
