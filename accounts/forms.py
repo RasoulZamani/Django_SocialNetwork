@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+
 class UserRegisterForm(forms.Form):
     """from for user registeration"""
     username = forms.CharField(max_length=64, required=True,
@@ -36,3 +37,12 @@ class UserRegisterForm(forms.Form):
         
         if password and confired_pass and (password != confired_pass):
             raise ValidationError('two password must match') 
+        
+
+class UserLoginForm(forms.Form):
+    """from for user login"""
+    username = forms.CharField(max_length=64, required=True,
+        widget=forms.TextInput(attrs={'calss':'form-control'}))
+    password = forms.CharField(max_length=32, min_length=8, required=True,
+        widget=forms.PasswordInput(attrs={'calss':'form-control'}))
+    
