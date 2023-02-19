@@ -4,7 +4,7 @@ from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.models import User 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class UserRegisterView(View):
     """CBV for registering user"""
@@ -65,7 +65,7 @@ class UserLoginView(View):
         return render(request, self.template_class, {'user_form':user_form})
     
     
-class UserLogoutView(View):
+class UserLogoutView(LoginRequiredMixin, View):
     """CBV for Loging out user""" 
         
     def get(self, request):
