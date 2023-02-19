@@ -9,6 +9,8 @@ class UserRegisterForm(forms.Form):
     email    = forms.EmailField(widget=forms.EmailInput(attrs={'calss':'form-control', 'placeholder':'example@mail.com'}))
     password = forms.CharField(max_length=32, min_length=8, required=True,
         widget=forms.PasswordInput(attrs={'calss':'form-control', 'placeholder':'more than 8 character'}))
+    confired_pass = forms.CharField(label='Confime Password', max_length=32, min_length=8, required=True,
+        widget=forms.PasswordInput(attrs={'calss':'form-control', 'placeholder':'more than 8 character'}))
     
     def clean_email(self):
         """checkimg uniqeness of email"""
@@ -25,3 +27,12 @@ class UserRegisterForm(forms.Form):
         if user_with_username:
             raise ValidationError("This username is already exist!")
         return input_username
+    
+    def clean(self):
+        """overwritin clean for validating two fields (pass and conformed pass)"""
+        cd = super().clean()
+        password = cd.get('password')
+        confired_pass=cd.get('confired_pass')
+        
+        if password and confired_pass and (password != confired_pass):
+            raise ValidationError('two password must match') 
