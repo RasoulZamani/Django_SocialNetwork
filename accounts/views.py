@@ -72,4 +72,13 @@ class UserLogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.success(request, f"You have logged out successfuly!ByeBye!",'success')
         return redirect('home:home')
-                
+ 
+            
+class UserProfileView(LoginRequiredMixin, View):
+    """CBV for user profile""" 
+        
+    def get(self, request, user_id):
+        user = User.objects.get(pk=user_id)
+        return render(request, 'accounts/profile.html/', {'user':user})
+    
+        
