@@ -41,8 +41,8 @@ class UserRegisterForm(forms.Form):
 
 class UserLoginForm(forms.Form):
     """from for user login"""
-    username = forms.CharField(max_length=64, required=True,
-        widget=forms.TextInput(attrs={'calss':'form-control'}))
-    password = forms.CharField(max_length=32, min_length=8, required=True,
+    username = forms.CharField( required=True,
+        widget=forms.TextInput(attrs={'calss':'form-control', 'placeholder':'username or email'}))
+    password = forms.CharField(required=True,
         widget=forms.PasswordInput(attrs={'calss':'form-control'}))
     
