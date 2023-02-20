@@ -5,8 +5,8 @@ from django.views import View
 from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-
-
+from .forms import PostUpdateForm
+from django.utils.text import slugify
 #def home(request):
 #    return render(request, 'home/index.html')#HttpResponse("This is Home Page!")
 class HomeView(View):
@@ -34,3 +34,35 @@ class PostDeleteView(LoginRequiredMixin, View):
             messages.error(request, 'You can not delete other posts!!', 'error')
             
         return redirect('home:home')
+    
+
+class PostUpdateView(LoginRequiredMixin, View):
+    """CBV for updating post """
+    class_form = PostUpdateForm
+    def setup(self, request, *args, **kwargs):
+        self.post_inst = Post.objects.get(pk=kwargs['post_id'])
+        return super().setup(request, *args, **kwargs)
+  
+    def dispatch(self, request, *args, **kwargs):
+        post = self.post_inst
+        if not post.user.id == request.user.id :
+            messages.error(request, 'You can not update other posts!!', 'error')
+            return redirect('home:home')
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, post_id):
+        post = self.post_inst
+        form = self.class_form(instance=post)
+        return render(request, 'home/update.html', {'form':form})
+        
+    def post(self, request, post_id):
+        post = self.post_inst
+        form = self.class_form(request.POST, instance=post)
+        if form.is_valid:
+            new_data=form.save(commit=False)
+            new_data.slug = slugify(form.cleaned_data['body'][:40])
+            new_data.save()
+            messages.success(request, 'Your post was updated seccessfuly!', 'seccess')
+            return redirect(request, 'home:post_details', post.id, post.slug )
+            
+        
