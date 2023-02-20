@@ -12,5 +12,6 @@ For better implementation we use Class Based View.Admin pannel was costumized fo
 Also frontend improved by **Bootstrap**
 confirming pasword was done by overwriting clean() validator
 using get_absolute_url instead of {%url%}template tag.
-ovwerwriting setup for view was used to reduce number of connection to database.
+overwriting setup for view was used to reduce number of connection to database.
+Error handeling for non-defined urls (404) was done,but for activating you must change debug=False in setting.py.
 
