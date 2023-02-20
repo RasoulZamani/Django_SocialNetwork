@@ -9,3 +9,4 @@ After login you can see your profile as well as other users profiles in this soc
 For better implementation we use Class Based View.Admin pannel was costumized for showing posts.
 Also frontend improved by **Bootstrap**
 confirming pasword was done by overwriting clean() validator
+using get_absolute_url instead of {%url%}template tag.
