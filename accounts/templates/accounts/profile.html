@@ -5,9 +5,14 @@
 {% block content %}
     <h3>Profile</h3>
     <h2 class="text-center"> username: {{user.username}} </h2>
+    
+    {% if  request.user.id == user.id %}
+    <a href="{%url 'home:post_create' %}"  class="btn btn-primary" > Create New Post</a> 
+    {% endif %}
+
     <div class="card">
         {% for post in posts %}
-            <a class="card-body" href="{{post.get_absolute_url}}">{{post.body |  truncatewords:5}} </a>
+            <a  href="{{post.get_absolute_url}}" class="card-body" >{{post.body |  truncatewords:5}} </a>
         {% endfor %}
     </div>
 {% endblock %}

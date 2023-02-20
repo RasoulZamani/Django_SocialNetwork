@@ -5,7 +5,7 @@ from django.views import View
 from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .forms import PostUpdateForm
+from .forms import PostCreateUpdateForm
 from django.utils.text import slugify
 #def home(request):
 #    return render(request, 'home/index.html')#HttpResponse("This is Home Page!")
@@ -38,7 +38,7 @@ class PostDeleteView(LoginRequiredMixin, View):
 
 class PostUpdateView(LoginRequiredMixin, View):
     """CBV for updating post """
-    class_form = PostUpdateForm
+    class_form = PostCreateUpdateForm
     def setup(self, request, *args, **kwargs):
         self.post_inst = Post.objects.get(pk=kwargs['post_id'])
         return super().setup(request, *args, **kwargs)
@@ -59,10 +59,29 @@ class PostUpdateView(LoginRequiredMixin, View):
         post = self.post_inst
         form = self.class_form(request.POST, instance=post)
         if form.is_valid:
-            new_data=form.save(commit=False)
-            new_data.slug = slugify(form.cleaned_data['body'][:40])
-            new_data.save()
+            new_post=form.save(commit=False)
+            new_post.slug = slugify(form.cleaned_data['body'][:40])
+            new_post.save()
             messages.success(request, 'Your post was updated seccessfuly!', 'seccess')
-            return redirect(request, 'home:post_details', post.id, post.slug )
-            
+            return redirect('home:post_details', new_post.id, new_post.slug )
+        
+
+class PostCreateView(LoginRequiredMixin, View):
+    """CBV for creating post """
+    class_form = PostCreateUpdateForm
+ 
+    def get(self, request):
+        form = self.class_form()
+        return render(request, 'home/create.html', {'form':form})
+        
+    def post(self, request):
+        form = self.class_form(request.POST)
+        if form.is_valid:
+            new_post=form.save(commit=False)
+            new_post.slug = slugify(form.cleaned_data['body'][:10])
+            new_post.user = request.user
+            new_post.save()
+            messages.success(request, 'Your new post is created seccessfuly!', 'seccess')
+            return redirect('home:post_details', new_post.id, new_post.slug )
+             
         
