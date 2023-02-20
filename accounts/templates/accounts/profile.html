@@ -5,4 +5,9 @@
 {% block content %}
     <h3>Profile</h3>
     <h2 class="text-center"> username: {{user.username}} </h2>
+    <div class="card">
+        {% for post in posts %}
+            <a class="card-body" href="{%url 'home:post_details' post.id post.slug %}">{{post.body |  truncatewords:5}} </a>
+        {% endfor %}
+    </div>
 {% endblock %}
