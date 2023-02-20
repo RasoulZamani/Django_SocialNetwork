@@ -4,4 +4,9 @@
 
 {% block content %}
     Index Page
+    <div class="card">
+        {% for post in posts %}
+            <a class="card-body" href="{%url 'home:post_details' post.id post.slug %}">{{post.body |  truncatewords:5}} </a>
+        {% endfor %}
+    </div>
 {% endblock %}
