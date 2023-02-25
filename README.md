@@ -16,4 +16,5 @@ confirming pasword was done by overwriting clean() validator
 using get_absolute_url instead of {%url%}template tag.
 overwriting setup for view was used to reduce number of connection to database.
 Error handeling for non-defined urls (404) was done,but for activating you must change debug=False in setting.py.
+we ordere posts based on created time (newest first) by adding class Meta in Post model.
 
