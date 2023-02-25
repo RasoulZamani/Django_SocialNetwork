@@ -5,6 +5,8 @@ In this app you can register, login (by username or email) and logout.
 After login, you can see all post created by other users and theri profiles. 
 In your profile,you can send new post.your username and your own posts are shown too.
 By clicking on each post, you can see details of it and if it was your own post, you can update or delete it too!
+If you forget your password, don't worry at all! we will reset it by sending secure link to your email!
+
 
 ## Some Implementation Details
 

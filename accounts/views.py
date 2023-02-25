@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from home.models import Post
+from django.contrib.auth import views as auth_view
+from django.urls import reverse_lazy
+
 
 class UserRegisterView(View):
     """CBV for registering user"""
@@ -84,4 +87,26 @@ class UserProfileView(LoginRequiredMixin, View):
         return render(request, 'accounts/profile.html/',
                       {'user':user, 'posts':posts})
     
-        
+
+# Forgotten Password!___________________________________________________
+class UserPasswordResetView(auth_view.PasswordResetView):
+    """ view for reseting password"""
+    template_name = 'accounts/password_reset_form.html'
+    success_url   = reverse_lazy('accounts:password_reset_done')
+    email_template_name = 'accounts/password_reset_email.html'
+    
+    
+class UserPasswordResetDoneView(auth_view.PasswordResetDoneView):
+    """view for finishing resetting of pass"""
+    template_name = 'accounts/password_reset_done.html'
+    
+    
+class UserPasswordResetConfirmView(auth_view.PasswordResetConfirmView):
+    """confirming new pass"""
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url   = reverse_lazy('accounts:password_reset_complete')
+    
+
+class UserPasswordResetCompleteView(auth_view.PasswordResetCompleteView):
+    """ reseting pass is completed"""
+    template_name = 'accounts/password_reset_complete.html'

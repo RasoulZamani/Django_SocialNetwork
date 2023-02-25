@@ -9,4 +9,7 @@
         {{user_form.as_p}}
     <input type='submit'  value='Login'>
     </form>
+
+    <a href="{%url 'accounts:reset_password' %}"  class="" > Do you forget your password?</a> 
+
 {% endblock %}
