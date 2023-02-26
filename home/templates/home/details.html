@@ -10,6 +10,15 @@
     <p> <a href="{% url 'accounts:user_profile' post.user.id %}"> {{post.user.username}} </a> - {{post.updated |  date:"Y-M-d:H:i" }}</p>
     <p>{{post.body}}</p>
     <hr/>
+
+    {% if request.user.is_authenticated %}
+        <form action='' method='post' novalidate>
+            {% csrf_token %}
+            {{comment_form.as_p}}
+        <input type='submit'  value='Send Comment'>
+    </form>
+    {% endif %}
+
     <p>{{comments.count}} comments</p>
     {% for comment in comments %}
         <div class="card bg-dark text-white">
