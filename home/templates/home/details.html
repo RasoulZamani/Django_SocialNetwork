@@ -16,7 +16,7 @@
             {% csrf_token %}
             {{comment_form.as_p}}
         <input type='submit'  value='Send Comment'>
-    </form>
+    </form></br>
     {% endif %}
 
     <p>{{comments.count}} comments</p>
@@ -24,7 +24,24 @@
         <div class="card bg-dark text-white">
             <p class="card-header"> {{commetn.user}}    {{comment.created |  timesince}} ago</p>  
             <p class="card-body">{{comment.body}}</p>
-        </div>
+            
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'home:add_reply' post.id comment.id %}" method='post' novalidate>
+                {% csrf_token %}
+                {{reply_form.as_p}}
+                <input type='submit'  value='Send Reply'>
+            </form></br>
+            {% endif %}
+
+
+            {% with  replies=comment.reply_comment.all  %}
+            {% for reply in replies %}
+                <p class="bg-primary p-3 m-2"> {{reply.user}} </br> {{reply.body}}</p>
+            {% endfor %}
+            
+            {% endwith %}
+        
+        </div></br>
     {% empty %}
         <p> No comment yet!</p>
     {% endfor %}

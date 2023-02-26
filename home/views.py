@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
 #from django.contrib.auth.models import User  
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .forms import PostCreateUpdateForm, CommentCreateForm
+from .forms import PostCreateUpdateForm, CommentCreateForm, CommentReplyForm
 from django.utils.text import slugify
 
 
@@ -21,7 +21,7 @@ class HomeView(View):
 class PostDetailView(View):
     """CBV for post details"""
     class_form = CommentCreateForm
-    
+    class_reply_form = CommentReplyForm
     def setup(self, request, *args, **kwargs):
         self.post_inst = Post.objects.get(pk=kwargs['post_id'], slug=kwargs['post_slug'])
         return super().setup(request, *args, **kwargs)
@@ -30,7 +30,7 @@ class PostDetailView(View):
         post = self.post_inst
         comments = post.post_comment.filter(is_reply=False)
         return render(request, 'home/details.html',
-                      {'post':post, 'comments':comments, 'comment_form':self.class_form})
+                      {'post':post, 'comments':comments, 'comment_form':self.class_form, 'reply_form':self.class_reply_form})
     
     def post(self, request, *args, **kwargs):
         comment_form = self.class_form(request.POST)
@@ -103,4 +103,23 @@ class PostCreateView(LoginRequiredMixin, View):
             messages.success(request, 'Your new post is created seccessfuly!', 'seccess')
             return redirect('home:post_details', new_post.id, new_post.slug )
              
+class PostAddReplyView(LoginRequiredMixin, View):
+    """CBV for adding reply """
+    class_form = CommentReplyForm
+    
+    def post(self, request, post_id, comment_id):
+        post    = get_object_or_404(Post, id=post_id )
+        comment = get_object_or_404(Comment, id=comment_id)
         
+        reply_form = self.class_form(request.POST)
+        if reply_form.is_valid():
+            new_reply          = reply_form.save(commit=False)
+            new_reply.user     = request.user
+            new_reply.post     = post
+            new_reply.reply    = comment 
+            new_reply.is_reply = True
+            
+            new_reply.save()
+            messages.success(request, 'Your reply was sent seccessfuly!', 'seccess')
+            return redirect('home:post_details', post.id, post.slug)
+   
