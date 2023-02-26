@@ -21,4 +21,5 @@ overwriting setup for view was used to reduce number of connection to database.
 Error handeling for non-defined urls (404) was done,but for activating you must change debug=False in setting.py.
 we ordere posts based on created time (newest first) by adding class Meta in Post model.
 when you click on other user profile before log in, you first redirect to login page, and then to user profile that you had clicked. this was implemented by using 'next' in url.
+we extended pre-built User model in order to contain profile (bio and age) by using admin.UserAdmi and StackInline.
 
