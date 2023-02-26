@@ -7,7 +7,14 @@
     <h2 class="text-center"> username: {{user.username}} </h2>
     
     {% if  request.user.id == user.id %}
-    <a href="{%url 'home:post_create' %}"  class="btn btn-primary" > Create New Post</a> 
+        <a href="{%url 'home:post_create' %}"  class="btn btn-primary" > Create New Post</a> 
+    {% endif %}
+
+
+    {% if  request.user.id != user.id and not is_following %}
+        <a  href="{%url 'accounts:user_follow' user.id %}"  class="btn btn-primary" > Follow </a> 
+    {% elif request.user.id != user.id and is_following %}
+        <a  href="{%url 'accounts:user_unfollow' user.id %}"  class="btn btn-primary" > Unfollow </a> 
     {% endif %}
 
     <div class="card">
