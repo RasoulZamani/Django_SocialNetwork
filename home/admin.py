@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Like
 
 # Register your models here.
 #admin.site.register(Post)
@@ -17,4 +17,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_display=('user', 'post','created','is_reply')
     list_filter = ('created',)
     raw_id_fields=('user', 'post', 'reply')
-    
+
+
+admin.site.register(Like)

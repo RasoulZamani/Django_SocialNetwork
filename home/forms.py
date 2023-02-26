@@ -23,3 +23,6 @@ class CommentReplyForm(forms.ModelForm):
         widgets = {
             'body':forms.Textarea(attrs={'class':'form-control'})
         }
+        
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=110)
