@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 # For more security, you should manually have config.py file in this folder
-from config import GOOGLE_ACCOUNT_CONF
+from .config import GOOGLE_ACCOUNT_CONF
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -133,10 +133,10 @@ AUTHENTICATION_BACKENDS = [
 
 # Google account setting for email link forget password 
 # you should manually have config.py file in this folder containing this values
-EMAIL_BACKEND       = GOOGLE_ACCOUNT_CONF.EMAIL_BACKEND
-EMAIL_HOST          = GOOGLE_ACCOUNT_CONF.EMAIL_HOST          
-EMAIL_HOST_USER     = GOOGLE_ACCOUNT_CONF.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = GOOGLE_ACCOUNT_CONF.EMAIL_HOST_PASSWORD
-EMAIL_PORT          = GOOGLE_ACCOUNT_CONF.EMAIL_PORT
-EMAIL_USE_TLS       = GOOGLE_ACCOUNT_CONF.EMAIL_USE_TLS
-DEFAULT_FROM_EMAIL  = GOOGLE_ACCOUNT_CONF.DEFAULT_FROM_EMAIL
+EMAIL_BACKEND       = GOOGLE_ACCOUNT_CONF['EMAIL_BACKEND']
+EMAIL_HOST          = GOOGLE_ACCOUNT_CONF['EMAIL_HOST']          
+EMAIL_HOST_USER     = GOOGLE_ACCOUNT_CONF['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = GOOGLE_ACCOUNT_CONF['EMAIL_HOST_PASSWORD']
+EMAIL_PORT          = GOOGLE_ACCOUNT_CONF['EMAIL_PORT']
+EMAIL_USE_TLS       = GOOGLE_ACCOUNT_CONF['EMAIL_USE_TLS']
+DEFAULT_FROM_EMAIL  = GOOGLE_ACCOUNT_CONF['DEFAULT_FROM_EMAIL']

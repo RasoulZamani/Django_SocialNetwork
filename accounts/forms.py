@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
+from .models import Profile
 
 class UserRegisterForm(forms.Form):
     """from for user registeration"""
@@ -46,3 +46,11 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(required=True,
         widget=forms.PasswordInput(attrs={'calss':'form-control'}))
     
+
+class EditProfileForm(forms.ModelForm):
+    """Form for editting profile"""
+    
+    email = forms.EmailField()
+    class Meta:
+        model = Profile
+        fields = ('age', 'bio')
